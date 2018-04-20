@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+//Comment out desired code
+
 //#include "Dropdown.h"
 /*
 int main()
@@ -141,20 +143,19 @@ int main(){
 
             sf::String searchInput;
             sf::Text searchText;
-        	std::string searchTextStr;
-            sf::RectangleShape searchBar(sf::Vector2f(300,50));
+            std::string searchTextStr;
 
+
+            sf::RectangleShape searchBar(sf::Vector2f(300,50));
         	searchBar.setPosition((window.getSize().x/2) - searchBar.getSize().x/2, 2.0f);
         	searchBar.setOutlineThickness(2);
         	searchBar.setOutlineColor(sf::Color::Black);
 
             searchText.setPosition(sf::Vector2f(600 , 5));
             searchText.setFont(font);
-            searchText.setString("Search Bar");
+           // searchText.setString("Search Bar");
             searchText.setCharacterSize(25);
             searchText.setColor(sf::Color::Red);
-
-
 
     while (window.isOpen())
         {
@@ -174,54 +175,65 @@ int main(){
 
             		 if(searchBar.getGlobalBounds().contains(mousePosF))
             		 {
-
-            			 //sf::Event textEvent;
             			 searchInput.clear();
             			 searchText.setString(searchInput);
-            			 //window.draw(searchText);
-            			 //window.display();
+            			 window.clear(sf::Color::White);
+            			 window.draw(searchBar);
+            			 window.draw(searchText);
+            			 window.display();
+
             			 while(window.waitEvent(event))
-            			{
+            			 {
                 			 if(event.type == sf::Event::TextEntered)
                 			 {
-
-            				// while(event.text.unicode != 49)
-            				 //{
-            				 	 if(event.text.unicode<123 && event.text.unicode > 32 )
+            				 	 if(event.text.unicode<123 && event.text.unicode > 31)	//Take in characters
             				 	 {
             				 		 searchInput += event.text.unicode;
             				 		 searchText.setString(searchInput);
 
             				 		 searchTextStr = searchText.getString().toAnsiString();
-
+            				 		 window.clear(sf::Color::White);
+            				 		 window.draw(searchBar);
             				 		 window.draw(searchText);
             				         window.display();
             				 	 }
-            				 //}
-
-            				 	 if(event.text.unicode == 13)
+            				 	 if(event.text.unicode == 8)		//Backspace
             				 	 {
-            				 		 if(searchTextStr.compare(names.at(1)) == 0)
-            				 		        {
-            				 		        	std::cout<<"found person" << std::endl;
+            				 		 if(searchTextStr.size() > 0)
+            				 		 {
+            				 			searchTextStr = searchText.getString().toAnsiString();
+            				 			searchTextStr.pop_back();
+            				 			searchText.setString(searchTextStr);
+            				 			searchInput.erase(searchInput.getSize()-1, 1);
 
-            				 		        }else
-            				 		        	std::cout<<"person not found" << std::endl;
+            				 			window.clear(sf::Color::White);
+            				 			window.draw(searchBar);
+            				 			window.draw(searchText);
+            				 			window.display();
+            				 		 }
+
+            				 	 }
+
+            				 	 if(event.text.unicode == 13) //Enter key pressed
+            				 	 {
+            				 		searchTextStr = searchText.getString().toAnsiString();
+            				 		std::cout<<searchTextStr<<std::endl;
+            				 		 if(searchTextStr.compare(names.at(1)) == 0)
+            				 		 {
+            				 			 std::cout<<"found person" << std::endl;
+            				 		 }else
+            				 			 std::cout<<"person not found" << std::endl;
             				 		 break;
             				 	 }
                 			 }
             			 }
-
-
             		 }
             	 }
         window.clear(sf::Color::White);
         window.draw(searchBar);
         window.draw(searchText);
         window.display();
-
       }
-
 }
     return 0;
 
