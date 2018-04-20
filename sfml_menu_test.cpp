@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 //#include "Dropdown.h"
+#include "TextBox.h"
 
 std::vector<std::string> names = {"Dave" , "Dean", "Jon"};
 
@@ -45,6 +46,8 @@ int main()
             searchText.setCharacterSize(25);
             searchText.setColor(sf::Color::Red);
 
+            TextBox box = TextBox(sf::Vector2f(400,50), sf::Vector2f(800.0f, 600.0f) ,5, font);
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -63,9 +66,40 @@ int main()
         		sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
 
 
+        		if ( box.clicked( mousePosF) )	//detect if an object of TextBox was clicked
+        		{
+        			std::cout << "Clicked textBox" << std::endl;
+        			window.clear(sf::Color::White);
+        			window.draw(box.getTextBox());
+        			window.draw(box.getBoxText());
+        			window.display();
+        			while(window.waitEvent(event))
+        			{
+        				if(event.type == sf::Event::TextEntered)
+        				{
+        					box.textEntered(event.text.unicode);
+        					window.clear(sf::Color::White);
+        					window.draw(box.getTextBox());
+        					window.draw(box.getBoxText());
+        					window.display();
+        					if(event.text.unicode == 13)	//Must have a particular action be a break statement (<enter> key)
+        					{
+        						std::cout<<box.getBoxTextStr()<<std::endl;
+        						if(box.getBoxTextStr().compare(names.at(1)) == 0)
+        						{
+        							std::cout<<"found person" << std::endl;
+        						}else
+        							std::cout<<"person not found" << std::endl;
+        						break;
+        					}
+        				}
+        			}
+        		}
+
         		if ( produceButton.getGlobalBounds().contains( mousePosF ) )
         		{
         			std::cout << "Clicked sprite button" << std::endl;
+
         		}
 
         		if(searchBar.getGlobalBounds().contains(mousePosF))
@@ -140,8 +174,12 @@ int main()
         window.draw(produceButton);
         window.draw(searchBar);
         window.draw(searchText);
+
+        window.draw(box.getTextBox());
+        window.draw(box.getBoxText());
         window.display();
         }
+
     }
     return 0;
 }
