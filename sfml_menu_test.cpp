@@ -34,12 +34,12 @@ int main()
             std::string searchTextStr;
 
 
-            sf::RectangleShape searchBar(sf::Vector2f(300,50));
+            sf::RectangleShape searchBar(sf::Vector2f(400,50));
         	searchBar.setPosition((window.getSize().x/2) - searchBar.getSize().x/2, 2.0f);
         	searchBar.setOutlineThickness(2);
         	searchBar.setOutlineColor(sf::Color::Black);
 
-            searchText.setPosition(sf::Vector2f(600 , 5));
+            searchText.setPosition(searchBar.getPosition().x + 2,searchBar.getPosition().y + 8);
             searchText.setFont(font);
             searchText.setString("Search Bar");
             searchText.setCharacterSize(25);
@@ -82,8 +82,9 @@ int main()
         			{
         				if(event.type == sf::Event::TextEntered)
         				{
-        					if(event.text.unicode<123 && event.text.unicode > 31)	//Take in characters
+        					if(event.text.unicode<123 && event.text.unicode > 31 && (searchText.getLocalBounds().width< searchBar.getLocalBounds().width - 15))	//Take in characters
         					{
+        						//std::cout<< searchText.getLocalBounds().width << std::endl;
         						searchInput += event.text.unicode;
         						searchText.setString(searchInput);
 
