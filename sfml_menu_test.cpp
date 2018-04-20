@@ -9,176 +9,228 @@
 #include <iostream>
 #include <string>
 #include <vector>
-//#include "Dropdown.h"
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <algorithm>
+
+
+#include "Store.h"
 #include "TextBox.h"
 
 std::vector<std::string> names = {"Dave" , "Dean", "Jon"};
-
+std::string line;
 int main()
 {
+	std::cout<< std::fixed << std::setprecision(2);	//Sets cout to output numbers with 2 decimal places
+
+	Store supermarket = Store();		//Creates object <supermarket>
+
+	std::ifstream productDataFile;			//Initializes productDataFile as a istream object
+	productDataFile.open("FOOD.txt");	//Data will be streamed from the <FOOD.txt> file
+
+	// Saves one line of the text file into "line", until eof (end of file) is reached.
+	while(std::getline(productDataFile, line))
+	{
+
+		std::vector<std::string> lineVec;			//<lineVec> is a vector that will be used to store the split strings
+										//from the string "line"
+		std::istringstream iss(line);		//create a string stream "iss" to operate on the string line.
+
+	//While-loop will split "line" by the spaces it contains.  It will store the splitted strings into "lineVec"
+		while( iss >> line )
+		{
+			replace( line.begin(), line.end(), '_', ' ' );
+			//line.erase(remove(line.begin(), line.end(), '_'), line.end());	//remove underscores from strings
+		    lineVec.push_back(line);
+		}
+	//The following bool expressions check what sections the each entry belongs to.
+		if (lineVec.at(0).compare("produce") == 0){
+			supermarket.addProduce(lineVec.at(1), lineVec.at(2), stod(lineVec.at(3)));
+		}
+
+
+
+		lineVec.clear();
+	}
+		productDataFile.close();	//Closes the stream of productDataFile when the eof has been reached.
+
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+
+		supermarket.listFruit();
+
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	sf::RenderWindow window(sf::VideoMode(1500, 800), "Mr. Djald's Supermarket", sf::Style::Close^sf::Style::Titlebar);
-            sf::Font font;
-            if (!font.loadFromFile("arial.ttf"))
-            return EXIT_FAILURE;
+	sf::Font font;
+	if (!font.loadFromFile("arial.ttf"))
+		return EXIT_FAILURE;
 
+	sf::Texture produce_button;
+	sf::Sprite produceButton;
+	if (!produce_button.loadFromFile("produce_button.png"))
+		std::cout<<"nogo on button\n\n";//error message
 
-            sf::Texture produce_button;
-            sf::Sprite produceButton;
-            if (!produce_button.loadFromFile("produce_button.png"))
-            	std::cout<<"nogo on button\n\n";//error message
+	produceButton.setTexture(produce_button);
+	produceButton.setPosition( 0.0f, 0.0f );
 
-            produceButton.setTexture(produce_button);
-            produceButton.setPosition( 0.0f, 0.0f );
+	int windowDepth = 0;
 
-            sf::String searchInput;
-            sf::Text searchText;
-            std::string searchTextStr;
-
-
-            sf::RectangleShape searchBar(sf::Vector2f(400,50));
-        	searchBar.setPosition((window.getSize().x/2) - searchBar.getSize().x/2, 2.0f);
-        	searchBar.setOutlineThickness(2);
-        	searchBar.setOutlineColor(sf::Color::Black);
-
-            searchText.setPosition(searchBar.getPosition().x + 2,searchBar.getPosition().y + 8);
-            searchText.setFont(font);
-            searchText.setString("Search Bar");
-            searchText.setCharacterSize(25);
-            searchText.setColor(sf::Color::Red);
-
-            TextBox box = TextBox(sf::Vector2f(400,50), sf::Vector2f(800.0f, 600.0f) ,5, font);
 
     while (window.isOpen())
     {
-        sf::Event event;
-        while(window.pollEvent(event))
+    	sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+    	sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
+
+    	TextBox nameBox = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 400.0f) ,5, font, "Enter Full Name");
+        TextBox box = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 6.0f) ,5, font, "Search");
+
+    	sf::Event event0;
+    	sf::Event event1;
+
+    	if(windowDepth == 0)
+    	{
+    	while(window.pollEvent(event0) )
+    	{
+    			switch(event0.type)
+    			{
+    			case(sf::Event::Closed):
+    			{
+    				window.close();
+    				break;
+    			}
+
+    			case(sf::Event::MouseButtonPressed):
+    			{
+
+    				if ( nameBox.clicked( mousePosF) )	//detect if an object of TextBox was clicked
+    				{
+    					std::cout << "Clicked nameBox" << std::endl;
+    					window.clear(sf::Color::White);
+    					window.draw(nameBox.getTextBox());
+    					window.draw(nameBox.getBoxText());
+    					window.display();
+    					while(window.waitEvent(event0))
+    					{
+    						if(event0.type == sf::Event::TextEntered)
+    						{
+    							nameBox.textEntered(event0.text.unicode);
+    							window.clear(sf::Color::White);
+    							window.draw(nameBox.getTextBox());
+    							window.draw(nameBox.getBoxText());
+    							window.display();
+    							if(event0.text.unicode == 13)	//Must have a particular action be a break statement (<enter> key)
+    							{
+    								std::cout<<nameBox.getBoxTextStr()<<std::endl;
+    								windowDepth++;
+    								std::cout<<windowDepth<<std::endl;
+    								break;
+    							}
+    						}
+    					}
+    				}
+    			}
+
+    		}
+    			window.clear(sf::Color::White);
+    			window.draw(nameBox.getTextBox());
+    			window.draw(nameBox.getBoxText());
+    			window.display();
+    	}
+    	continue;
+    	}
+
+    	if(windowDepth == 1)
+    	{
+    	while(window.pollEvent(event1) )
         {
-        	switch(event.type)
+        	switch(event1.type)
         	{
-        	case(sf::Event::Closed):
-			{
-        		window.close();
-        		break;
-			}
-        	case(sf::Event::MouseButtonPressed):
-			{
-        		sf::Vector2i mousePos = sf::Mouse::getPosition( window );
-        		sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
+        		case(sf::Event::Closed):
+				{
+        			window.close();
+        			break;
+				}
+        		case(sf::Event::MouseButtonPressed):
+				{
+        			//sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+        			//sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
 
-
-        		if ( box.clicked( mousePosF) )	//detect if an object of TextBox was clicked
-        		{
-        			std::cout << "Clicked textBox" << std::endl;
-        			window.clear(sf::Color::White);
-        			window.draw(box.getTextBox());
-        			window.draw(box.getBoxText());
-        			window.display();
-        			while(window.waitEvent(event))
+        			if ( box.clicked( mousePosF) )	//detect if an object of TextBox was clicked
         			{
-        				if(event.type == sf::Event::TextEntered)
+        				std::cout << "Clicked textBox" << std::endl;
+        				window.clear(sf::Color::White);
+        				window.draw(box.getTextBox());
+        				window.draw(box.getBoxText());
+        				window.display();
+        				while(window.waitEvent(event1))
         				{
-        					box.textEntered(event.text.unicode);
-        					window.clear(sf::Color::White);
-        					window.draw(box.getTextBox());
-        					window.draw(box.getBoxText());
-        					window.display();
-        					if(event.text.unicode == 13)	//Must have a particular action be a break statement (<enter> key)
+        					if(event1.type == sf::Event::TextEntered)
         					{
-        						std::cout<<box.getBoxTextStr()<<std::endl;
-        						if(box.getBoxTextStr().compare(names.at(1)) == 0)
-        						{
-        							std::cout<<"found person" << std::endl;
-        						}else
-        							std::cout<<"person not found" << std::endl;
-        						break;
-        					}
-        				}
-        			}
-        		}
-
-        		if ( produceButton.getGlobalBounds().contains( mousePosF ) )
-        		{
-        			std::cout << "Clicked sprite button" << std::endl;
-
-        		}
-
-        		if(searchBar.getGlobalBounds().contains(mousePosF))
-        		{
-        			std::cout<<"Pressed search bar"<<std::endl;
-        			searchInput.clear();
-        			searchText.setString(searchInput);
-        			window.clear(sf::Color::White);
-        			window.draw(searchBar);
-        			window.draw(searchText);
-        			window.display();
-
-        			while(window.waitEvent(event))
-        			{
-        				if(event.type == sf::Event::TextEntered)
-        				{
-        					if(event.text.unicode<123 && event.text.unicode > 31 && (searchText.getLocalBounds().width< searchBar.getLocalBounds().width - 15))	//Take in characters
-        					{
-        						//std::cout<< searchText.getLocalBounds().width << std::endl;
-        						searchInput += event.text.unicode;
-        						searchText.setString(searchInput);
-
-        						searchTextStr = searchText.getString().toAnsiString();
+        						box.textEntered(event1.text.unicode);
         						window.clear(sf::Color::White);
-        						window.draw(searchBar);
-        						window.draw(searchText);
+        						window.draw(box.getTextBox());
+        						window.draw(box.getBoxText());
         						window.display();
-        					}
-        					if(event.text.unicode == 8)		//Backspace
-        					{
-        						if(searchTextStr.size() > 0)
+        						if(event1.text.unicode == 13)	//Must have a particular action be a break statement (<enter> key)
         						{
-        							searchTextStr = searchText.getString().toAnsiString();
-        							searchTextStr.pop_back();
-        							searchText.setString(searchTextStr);
-        							searchInput.erase(searchInput.getSize()-1, 1);
+        							std::cout<<box.getBoxTextStr()<<std::endl;
 
-        							window.clear(sf::Color::White);
-        							window.draw(searchBar);
-        							window.draw(searchText);
-        							window.display();
+        								if(box.getBoxTextStr().compare(names.at(1)) == 0)
+        								{
+        									std::cout<<"found person" << std::endl;
+        								}else
+        									std::cout<<"person not found" << std::endl;
+
+        							break;
         						}
         					}
-        					//Here search for specific items
-        					if(event.text.unicode == 13) //Enter key pressed
-        					{
-        						searchTextStr = searchText.getString().toAnsiString();
-        						std::cout<<searchTextStr<<std::endl;
-        						if(searchTextStr.compare(names.at(1)) == 0)
-        						{
-        							std::cout<<"found person" << std::endl;
-        						}else
-        							std::cout<<"person not found" << std::endl;
-        						break;
-        					}
         				}
         			}
+
+        			if ( produceButton.getGlobalBounds().contains( mousePosF ) )
+        			{
+        				std::cout << "Clicked sprite button" << std::endl;
+        			}
+
+        			break;
+				}
+        		case(sf::Event::KeyPressed):
+        		{
+        			if(event1.key.code == sf::Keyboard::M)
+        				produceButton.move(0.0f, 100.0f);
+        			if(event1.key.code == sf::Keyboard::N)
+        				produceButton.move(0.0f, -100.0f);
+        			break;
         		}
-        		break;
-			}
-        	case(sf::Event::KeyPressed):
-        	{
-        		if(event.key.code == sf::Keyboard::M)
-        			produceButton.move(0.0f, 100.0f);
-        		if(event.key.code == sf::Keyboard::N)
-        			produceButton.move(0.0f, -100.0f);
-        		break;
-        	}
         	}
 
         window.clear(sf::Color::White);
         window.draw(produceButton);
-        window.draw(searchBar);
-        window.draw(searchText);
-
         window.draw(box.getTextBox());
         window.draw(box.getBoxText());
         window.display();
         }
+
+    	}
+
 
     }
     return 0;

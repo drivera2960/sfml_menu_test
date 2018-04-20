@@ -24,7 +24,7 @@ class TextBox
         sf::RectangleShape textBox;
 
 	public:
-		TextBox(sf::Vector2f dimensions, sf::Vector2f location,int outlineThickness, sf::Font &font);
+		TextBox(sf::Vector2f dimensions, sf::Vector2f location,int outlineThickness, sf::Font &font, std::string initText);
 		void changePosition(float x, float y);
 		bool clicked(sf::Vector2f mousePosF);
 		void textEntered(sf::Uint32 unicode);
@@ -36,7 +36,7 @@ class TextBox
 
 };
 
-TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThickness, sf::Font &font )
+TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThickness, sf::Font &font,std::string initText )
 {
 	textBox.setSize(dimensions);
 	textBox.setPosition(location);
@@ -45,7 +45,7 @@ TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThic
 
 	boxText.setPosition(location.x + 2, location.y + 8);
 	boxText.setFont(font);
-	boxText.setString("Click to Type");
+	boxText.setString(initText);
 	boxText.setCharacterSize(25);
 	boxText.setColor(sf::Color::Red);
 }
@@ -97,11 +97,14 @@ void TextBox::textEntered(sf::Uint32 unicode)
 	}
 	if(unicode == 8)
 	{
+		if(boxTextStr.size() > 0)
+		 {
+
 		boxTextStr = boxText.getString().toAnsiString();
 		boxTextStr.pop_back();
 		boxText.setString(boxTextStr);
 		boxInput.erase(boxInput.getSize()-1, 1);
-
+		 }
 	}
 	if(unicode == 13)
 	{
