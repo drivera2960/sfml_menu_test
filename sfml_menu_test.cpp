@@ -61,8 +61,6 @@ int main()
 			supermarket.addProduce(lineVec.at(1), lineVec.at(2), stod(lineVec.at(3)), sf::Vector2f(100,30), font, lineVec.at(1));
 		}
 
-
-
 		lineVec.clear();
 	}
 		productDataFile.close();	//Closes the stream of productDataFile when the eof has been reached.
@@ -74,11 +72,6 @@ int main()
 
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 //	if (!produce_button.loadFromFile("produce_button.png"))
 //		std::cout<<"nogo on button\n\n";//error message
@@ -220,12 +213,10 @@ int main()
         			        window.draw(drinksButton.getButton());
         			        window.draw(drinksButton.getButtonName());
 
-        			        for(int i = 0, max = supermarket.amountOfProduceButtons(); i!=max;++i)
+        			        for(int i = 0, max = supermarket.amountOfProduceItems(); i!=max;++i)
         			        {
         			        	window.draw(supermarket.getProduceItem(i).getButton());
         			        	window.draw(supermarket.getProduceItem(i).getButtonName());
-        					//window.draw(supermarket.printProduceItem(i));
-        					//window.draw(supermarket.printProduceItemText(i));
         			        }
 
         					window.display();
