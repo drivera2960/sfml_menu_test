@@ -6,3 +6,4 @@ produce Mango fruit 1
 produce Carrot vegetable 0.50
 produce Celery vegetable 0.6
 produce Walnuts nut 3.56
+produce Watermelon fruit 2.50

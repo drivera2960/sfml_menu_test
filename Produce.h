@@ -1,8 +1,7 @@
 /*
  * Produce.h
- *
  *  Created on: Apr 20, 2018
- *      Author: User
+ *      Author: Dave
  */
 
 #ifndef PRODUCE_H_
@@ -11,27 +10,32 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
-
-#include "Store.h"
+/*
+//#include "Store.h"
 
 class Produce{
-	friend class Store;
+	//friend class Store;
 		private:
 			const std::string name;
 			const std::string type;
 			double pricePerLlb;
 			double supermarketQuantity;
 
+
+
 		public:
-			Produce(std::string name, std::string type, double pricePerLlb);
+			Produce(std::string name, std::string type, double pricePerLlb, Button button);
 			std::string getType();
 			Produce addProduce(std::string name, std::string section);
 			std::string getName();
 			double getPricePerLlb();
 
 };
-Produce::Produce(std::string name, std::string type, double pricePerLlb):name(name), type(type){
+Produce::Produce(std::string name, std::string type, double pricePerLlb, Button button):name(name), type(type){
+	this -> button = button;
 	this -> pricePerLlb = pricePerLlb;
 	this -> supermarketQuantity = 100;
 }
@@ -48,6 +52,6 @@ double Produce::getPricePerLlb(){
 	return this -> pricePerLlb;
 }
 
-
+*/
 
 #endif /* PRODUCE_H_ */

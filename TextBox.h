@@ -16,7 +16,6 @@
 
 class TextBox
 {
-
 	private:
 		sf::String boxInput;
 		sf::Text boxText;
@@ -32,8 +31,6 @@ class TextBox
 		sf::RectangleShape getTextBox();
 		sf::Text getBoxText();
 		std::string getBoxTextStr();
-
-
 };
 
 TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThickness, sf::Font &font,std::string initText )
@@ -54,7 +51,6 @@ void TextBox::changePosition(float x, float y)
 {
 	textBox.setPosition(x, y);
 }
-
 
 sf::RectangleShape TextBox::getTextBox()
 {
@@ -112,5 +108,4 @@ void TextBox::textEntered(sf::Uint32 unicode)
 	}
 
 }
-
 #endif /* TEXTBOX_H_ */
