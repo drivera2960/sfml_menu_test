@@ -198,6 +198,8 @@ int main()
         				std::cout<<"Produce Button Clicked"<<std::endl;
         				while(window.waitEvent(event1))
         				{
+        					mousePos = sf::Mouse::getPosition( window );
+     					    sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
         					supermarket.produceGrid();
 
 
@@ -225,6 +227,19 @@ int main()
         						if(event1.key.code == sf::Keyboard::M)
         							break;
         					}
+        					if(event1.type == sf::Event::MouseButtonPressed)
+        					{
+        						std::cout<<supermarket.getProduceItem(0).getName()<<std::endl;
+        						std::cout<<mousePosF.x <<std::endl;
+        						std::cout<<mousePosF.y <<std::endl;
+
+        						for(int i = 0, max = supermarket.amountOfProduceItems(); i!=max;++i)
+        						{
+        						if(supermarket.getProduceItem(i).clicked(mousePosF))
+        								std::cout<<"yep"<<std::endl;
+        						}
+        					}
+
         				}
 
         			}
