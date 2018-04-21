@@ -29,13 +29,12 @@ class Store{
 		void listVegetables();
 		void listInfo();
 
-		void addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText );
+		void addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText, std::string link);
 		void produceGrid();
-	//	sf::RectangleShape printProduceItem(int pos);
-		//sf::Text printProduceItemText(int pos);
 		int amountOfProduceItems();
-
 		void addProduce(std::string name, std::string type, double pricePerLlb, Button button );
+
+		int checkProduceButtonPressed(sf::Vector2f mousePosF);
 
 		Produce getProduceItem(int pos);
 
@@ -44,9 +43,9 @@ class Store{
 Store::Store(){
 }
 
-void Store::addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText)
+void Store::addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions, sf::Font &font, std::string initText, std::string link)
 {
-	produceItems.push_back(Produce( name,  type,  pricePerLlb,  dimensions, font,  initText));
+	produceItems.push_back(Produce( name,  type,  pricePerLlb,  dimensions, font, initText, link));
 }
 
 
@@ -98,5 +97,14 @@ void Store::listVegetables(){
 	}
 }
 
+int Store::checkProduceButtonPressed(sf::Vector2f mousePosF)
+{
+	for(int i = 0, max = produceItems.size(); i!=max;++i)
+	{
+		if(produceItems.at(i).clicked(mousePosF))
+			return i;
+	}
+		return 444;
+}
 
 #endif /* STORE_H_ */

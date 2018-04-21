@@ -1,10 +1,10 @@
-produce Lettuce vegetable 0.25
-produce Kiwi fruit 1.20
-produce Banana fruit 0.10
-produce Apple fruit 0.80
-produce Mango fruit 1
-produce Carrot vegetable 0.50
-produce Celery vegetable 0.6
-produce Walnuts nut 3.56
-produce Watermelon fruit 2.50
-produce Lemon fruit 1.50
+produce Lettuce vegetable 0.25 Images/lettuce.jpg
+produce Kiwi fruit 1.20 Images/fresh-produce.jpg
+produce Banana fruit 0.10 Images/fresh-produce.jpg
+produce Apple fruit 0.80 Images/fresh-produce.jpg
+produce Mango fruit 1 Images/fresh-produce.jpg
+produce Carrot vegetable 0.50 Images/fresh-produce.jpg
+produce Celery vegetable 0.6 Images/fresh-produce.jpg
+produce Walnuts nut 3.56 Images/fresh-produce.jpg
+produce Watermelon fruit 2.50 Images/fresh-produce.jpg
+produce Lemon fruit 1.50 Images/lemon.jpg
