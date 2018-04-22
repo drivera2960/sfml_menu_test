@@ -19,19 +19,29 @@
 #include "TextBox.h"
 #include "Button.h"
 #include "Produce.h"
-sf::RenderWindow window(sf::VideoMode(1500, 800), "Mr. Djald's Supermarket", sf::Style::Close^sf::Style::Titlebar);
+sf::RenderWindow window(sf::VideoMode(1200, 800), "Mr. Djald's Supermarket", sf::Style::Close^sf::Style::Titlebar);
 sf::Font font;
-
+sf::Text total;
 std::vector<std::string> names = {"Dave" , "Dean", "Jon"};
+
+sf::Texture produceImageTexture;
+sf::Sprite produceImageSprite;
 
 std::string line;
 int selectedProduce;
 int windowDepth = 0;
 
+
+
 int main()
 {
 	if (!font.loadFromFile("arial.ttf"))
 			return EXIT_FAILURE;
+
+	if(!produceImageTexture.loadFromFile("Images/fresh-produce.jpg"))
+		return 0;
+	produceImageSprite.setTexture(produceImageTexture);
+	produceImageSprite.setPosition(0.0f, 0.0f);
 
 	std::cout<< std::fixed << std::setprecision(2);	//Sets cout to output numbers with 2 decimal places
 
@@ -75,11 +85,12 @@ int main()
 	TextBox nameBox = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 400.0f) ,5, font, "Enter Full Name");
 	TextBox box = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 6.0f) ,5, font, "Search");
 
-	Button produceButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 5.0f) , font, "Produce", 5, sf::Color::Magenta);
-	Button meatsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 72.0f) , font, "Meats", 5, sf::Color::Blue);
-	Button grainsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 139.0f) , font, "Grains", 5, sf::Color::Black);
-	Button dairyButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 206.0f) , font, "Dairy", 5, sf::Color::Black);
-	Button drinksButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 273.0f) , font, "Drinks", 5, sf::Color::Black);
+	Button produceButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 5.0f) , font, "Produce", 5, 25, sf::Color::Black, sf::Color::Magenta );
+	Button meatsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 72.0f) , font, "Meats", 5, 25, sf::Color::Black, sf::Color::Blue);
+	Button grainsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 139.0f) , font, "Grains", 5, 25, sf::Color::Black, sf::Color::Black);
+	Button dairyButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 206.0f) , font, "Dairy", 5, 25, sf::Color::Black, sf::Color::Black);
+	Button drinksButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 273.0f) , font, "Drinks", 5, 25, sf::Color::Black, sf::Color::Black);
+	Button cartButton = Button(sf::Vector2f(100.0f, 45.0f), sf::Vector2f(1095.0f, 20.0f) , font, "Pay", 9, 22, sf::Color::Black, sf::Color::Red);
 
     while (window.isOpen())
     {
@@ -185,6 +196,11 @@ int main()
         					}
         				}
         			}
+        			if(cartButton.clicked(mousePosF))
+        			{
+        				windowDepth = 37;
+        			break;
+        			}
         			if(produceButton.clicked(mousePosF))
         			{
         				std::cout<<"Produce Button Clicked"<<std::endl;
@@ -206,6 +222,8 @@ int main()
         			        window.draw(dairyButton.getButton());
         			        window.draw(dairyButton.getButtonName());
         			        window.draw(drinksButton.getButton());
+        			        window.draw(cartButton.getButton());
+        			        window.draw(cartButton.getButtonName());
         			        window.draw(drinksButton.getButtonName());
 
         			        for(int i = 0, max = supermarket.amountOfProduceItems(); i!=max;++i)
@@ -241,6 +259,7 @@ int main()
         			break;
 				}
 
+
         	}
 
         window.clear(sf::Color::White);
@@ -256,6 +275,8 @@ int main()
         window.draw(drinksButton.getButtonName());
         window.draw(box.getTextBox());
         window.draw(box.getBoxText());
+        window.draw(cartButton.getButton());
+        window.draw(cartButton.getButtonName());
         window.display();
         }
 
@@ -264,6 +285,18 @@ int main()
     	//Construct Produce Frame
     	if(windowDepth == 2)
     	{
+    		std::string name = "Name: ";
+    		std::string aisle = "Aisle: ";
+    		std::string pricePerLlb = "Price Per Llb: $";
+
+    		Button produceNameText = Button(sf::Vector2f(0.0f,0.0f), sf::Vector2f(0.0f, 0.0f) , font, (name).append(supermarket.getProduceItem(selectedProduce).getButtonNameStr()), 0, 50, sf::Color::Black, sf::Color::Magenta);
+    		Button produceTypeText = Button(sf::Vector2f(0.0f,0.0f), sf::Vector2f(0.0f, 60.0f) , font, aisle.append("Produce"), 0, 35, sf::Color::Black, sf::Color::Magenta);
+    		std::string priceUnformatted = pricePerLlb.append(std::to_string(supermarket.getProduceItem(selectedProduce).getPricePerLlb()));
+    		Button producePriceText = Button(sf::Vector2f(0.0f,0.0f), sf::Vector2f(0.0f, 100.0f) , font, priceUnformatted, 0, 35, sf::Color::Black, sf::Color::Magenta);
+
+    		Button addToCart = Button(sf::Vector2f(150.0f, 50.0f), sf::Vector2f(600.0f, 100.0f) , font, "Add to Cart", 3, 25, sf::Color::Black, sf::Color::Black);
+    		Button backButton = Button(sf::Vector2f(100.0f, 45.0f), sf::Vector2f(1095.0f, 20.0f) , font, "Go Back", 9, 22, sf::Color::Black, sf::Color::Red);
+
     		while(window.pollEvent(event) )
     		{
     			std::cout<< "Mouse Pos X: "<<mousePosF.x <<std::endl;
@@ -275,7 +308,22 @@ int main()
     					window.close();
     					break;
     				}
-    				case(sf::Event::KeyPressed):
+    				case(sf::Event::MouseButtonPressed):
+					{
+    					if(addToCart.clicked(mousePosF))
+    					{
+    						supermarket.addToCart(supermarket.getProduceItem(selectedProduce).getPricePerLlb() , supermarket.getProduceItem(selectedProduce).getButtonNameStr(), font);
+    					}
+
+    					if(backButton.clicked(mousePosF))
+    					{
+    						windowDepth--;
+    					}
+    					break;
+					}
+
+
+    				case(sf::Event::KeyPressed):		//Go back to menu
     				{
     					if(event.key.code == sf::Keyboard::M)
     					windowDepth--;
@@ -285,12 +333,62 @@ int main()
     					break;
     			}
 
-    			window.clear(sf::Color::Cyan);
+    			window.clear(sf::Color::White);
 
-    			window.draw(produceButton.getButton());
+    			window.draw(produceNameText.getButtonName());
+    			window.draw(produceTypeText.getButtonName());
+    			window.draw(producePriceText.getButtonName());
+    			window.draw(addToCart.getButton());
+    			window.draw(addToCart.getButtonName());
+    			window.draw(backButton.getButton());
+    			window.draw(backButton.getButtonName());
+    			//window.draw(supermarket.getProduceItem(selectedProduce).getButtonName());
+    			//window.draw(produceImageSprite);
     			window.display();
     		}
     	}
+
+
+
+    	if(windowDepth == 37)
+    	{
+    		supermarket.organizeCartContents();
+    		std::string finito = "Total Cost: $";
+
+    		total.setString(  finito.append(std::to_string(supermarket.calculateCost())) );
+    		total.setFont(font);
+    		total.setCharacterSize(30);
+    		total.setColor(sf::Color::Red);
+    		total.setPosition( window.getSize().x/2,700.0f);
+
+    		while(window.pollEvent(event) )
+    		{
+    			switch(event.type)
+    			{
+    				case(sf::Event::Closed):
+					{
+    					window.close();
+    					break;
+					}
+
+
+
+    			}
+    			window.clear(sf::Color::Yellow);
+
+    			for(int i = 0, max = supermarket.getCartSize(); i!=max; ++i)
+    			{
+    				window.draw(supermarket.getCartItem(i));
+    			}
+
+    			window.draw(total);
+    			window.display();
+    		}
+
+
+
+    	}
+
 
     }
     return 0;

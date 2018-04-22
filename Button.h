@@ -22,7 +22,7 @@ class Button
 		//Produce &object;
 
 	public:
-		Button(sf::Vector2f dimensions, sf::Vector2f location,  sf::Font &font, std::string initText, int thickness, sf::Color color);
+		Button(sf::Vector2f dimensions, sf::Vector2f location, sf::Font &font, std::string initText, int thickness, int characterSize, sf::Color colorText, sf::Color colorBoxOutline);
 		void changePosition(float x, float y);
 		std::string getButtonNameStr();
 		sf::RectangleShape getButton();
@@ -31,18 +31,18 @@ class Button
 
 };
 
-Button::Button(sf::Vector2f dimensions, sf::Vector2f location, sf::Font &font,std::string initText, int thickness, sf::Color color)
+Button::Button(sf::Vector2f dimensions, sf::Vector2f location, sf::Font &font, std::string initText, int boxThickness, int characterSize, sf::Color colorText, sf::Color colorBoxOutline)
 {
 	button.setSize(dimensions);
 	button.setPosition(location);
-	button.setOutlineThickness(thickness);
-	button.setOutlineColor(color);
+	button.setOutlineThickness(boxThickness);
+	button.setOutlineColor(colorBoxOutline);
 
 	nameText.setPosition(location.x + 8, location.y + 8);
 	nameText.setFont(font);
 	nameText.setString(initText);
-	nameText.setCharacterSize(25);
-	nameText.setColor(sf::Color::Black);
+	nameText.setCharacterSize(characterSize);
+	nameText.setColor(colorText);
 }
 
 void Button::changePosition(float x, float y)
