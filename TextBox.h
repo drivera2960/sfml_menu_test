@@ -23,7 +23,9 @@ class TextBox
         sf::RectangleShape textBox;
 
 	public:
+        TextBox();
 		TextBox(sf::Vector2f dimensions, sf::Vector2f location,int outlineThickness, sf::Font &font, std::string initText);
+		TextBox(sf::Vector2f location, sf::Font &font, std::string text, int characterSize, sf::Color color);		//No box
 		void changePosition(float x, float y);
 		bool clicked(sf::Vector2f mousePosF);
 		void textEntered(sf::Uint32 unicode);
@@ -32,6 +34,16 @@ class TextBox
 		sf::Text getBoxText();
 		std::string getBoxTextStr();
 };
+TextBox::TextBox(){}
+
+TextBox::TextBox(sf::Vector2f location, sf::Font &font, std::string text, int characterSize, sf::Color color)		//No box
+{
+	boxText.setPosition(location.x, location.y);
+	boxText.setFont(font);
+	boxText.setString(text);
+	boxText.setCharacterSize(characterSize);
+	boxText.setColor(color);
+}
 
 TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThickness, sf::Font &font,std::string initText )
 {
@@ -46,6 +58,7 @@ TextBox::TextBox(sf::Vector2f dimensions, sf::Vector2f location, int outlineThic
 	boxText.setCharacterSize(25);
 	boxText.setColor(sf::Color::Red);
 }
+
 
 void TextBox::changePosition(float x, float y)
 {

@@ -120,10 +120,13 @@ std::string Produce::getName()
 }
 
 
+
+
 sf::Text Produce::getPPPText()						//get pricePerLlb value in sf::Text form
 {
 	return this ->pricePerLlbText;
 }
+
 sf::Text Produce::getTypeText()
 {
 	return this -> typeText;
