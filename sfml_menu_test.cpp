@@ -31,7 +31,19 @@ std::string line;
 int selectedProduce;
 int windowDepth = 0;
 
-
+sf::Texture initial;
+sf::Texture second;
+sf::Texture produceTexture;
+sf::Texture meatsTexture;
+sf::Texture drinksTexture;
+sf::Texture pharmacyTexture;
+sf::Texture grainsTexture;
+sf::Texture cosmeticsTexture;
+sf::Texture dairyTexture;
+sf::Texture bakeryTexture;
+sf::Texture snacksTexture;
+sf::Texture deliTexture;
+sf::Texture hygieneTexture;
 
 int main()
 {
@@ -79,14 +91,152 @@ int main()
 
 		supermarket.listFruit();
 
+	    if(!initial.loadFromFile("Images/Entrance.jpg"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!second.loadFromFile("Images/Background.jpg"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!produceTexture.loadFromFile("Images/Produce.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!meatsTexture.loadFromFile("Images/Meats.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!drinksTexture.loadFromFile("Images/Drinks.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!pharmacyTexture.loadFromFile("Images/Pharmacy.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!grainsTexture.loadFromFile("Images/Grains.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!cosmeticsTexture.loadFromFile("Images/Cosmetics.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+
+	    if (!dairyTexture.loadFromFile("Images/Dairy.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!bakeryTexture.loadFromFile("Images/Bakery.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!snacksTexture.loadFromFile("Images/Snacks.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!deliTexture.loadFromFile("Images/Deli.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+	    if (!hygieneTexture.loadFromFile("Images/Hygiene.png"))
+	    {
+	        std::cout<<"Load failed"<<std::endl;
+	        system("pause");
+	    }
+
+
+	    sf::Sprite entrance;
+	    entrance.setPosition(window.getSize().x/2 - 600.0f, 0.0f);
+	    entrance.setTexture(initial);
+
+	    sf::Sprite background;
+	    background.setTexture(second);
+
+	    sf::Sprite produce;
+	    produce.setPosition(window.getSize().x/2 - 500.0f, 500.0f);
+	    produce.setTexture(produceTexture);
+
+	    sf::Sprite meats;
+	    meats.setPosition(window.getSize().x/2 - 650.0f, 400.0f);
+	    meats.setTexture(meatsTexture);
+
+	    sf::Sprite drinks;
+	    drinks.setPosition(window.getSize().x/2 - 200.0f, 450.0f);
+	    drinks.setTexture(drinksTexture);
+
+	    sf::Sprite pharmacy;
+	    pharmacy.setPosition(window.getSize().x/2 - 450.0f, 450.0f);
+	    pharmacy.setTexture(pharmacyTexture);
+
+	    sf::Sprite grains;
+	    grains.setPosition(window.getSize().x/2 - 225.0f, 450.0f);
+	    grains.setTexture(grainsTexture);
+
+	    sf::Sprite cosmetics;
+	    cosmetics.scale(0.7,0.7);
+	    cosmetics.setPosition(window.getSize().x/2 - 775.0f, 350.0f);
+	    cosmetics.setTexture(cosmeticsTexture);
+
+	    sf::Sprite dairy;
+	    dairy.scale(0.7,0.7);
+	    dairy.setPosition(window.getSize().x/2 - 230.0f, 450.0f);
+	    dairy.setTexture(dairyTexture);
+
+	    sf::Sprite bakery;
+	    bakery.setPosition(window.getSize().x/2 - 475.0f, 375.0f);
+	    bakery.setTexture(bakeryTexture);
+
+	    sf::Sprite snacks;
+	    dairy.scale(0.6,0.6);
+	    snacks.setPosition(window.getSize().x/2 - 650.0f, 280.0f);
+	    snacks.setTexture(snacksTexture);
+
+	    sf::Sprite deli;
+	    deli.setPosition(window.getSize().x/2 - 300.0f, 400.0f);
+	    deli.setTexture(deliTexture);
+
+	    sf::Sprite hygiene;
+	    hygiene.scale(0.8,0.8);
+	    hygiene.setPosition(window.getSize().x/2 - 250.0f, 350.0f);
+	    hygiene.setTexture(hygieneTexture);
+
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
 
-	TextBox nameBox = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 400.0f) ,5, font, "Enter Full Name");
+
+
+
+	TextBox nameBox = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 700.0f) ,5, font, "Enter Full Name");
 	TextBox box = TextBox(sf::Vector2f(400,50), sf::Vector2f(window.getSize().x/2 - 400/2, 6.0f) ,5, font, "Search");
 
-	Button produceButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 5.0f) , font, "Produce", 5, 25, sf::Color::Black, sf::Color::Magenta );
-	Button meatsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 72.0f) , font, "Meats", 5, 25, sf::Color::Black, sf::Color::Blue);
+	Button produceButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 5.0f) , font, "Produce", 5, 25, sf::Color::Black, sf::Color::Black );
+	Button meatsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 72.0f) , font, "Meats", 5, 25, sf::Color::Black, sf::Color::Black);
 	Button grainsButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 139.0f) , font, "Grains", 5, 25, sf::Color::Black, sf::Color::Black);
 	Button dairyButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 206.0f) , font, "Dairy", 5, 25, sf::Color::Black, sf::Color::Black);
 	Button drinksButton = Button(sf::Vector2f(200,57), sf::Vector2f(5.0f, 273.0f) , font, "Drinks", 5, 25, sf::Color::Black, sf::Color::Black);
@@ -119,6 +269,7 @@ int main()
     				{
     					std::cout << "Clicked nameBox" << std::endl;
     					window.clear(sf::Color::White);
+                        window.draw(entrance);
     					window.draw(nameBox.getTextBox());
     					window.draw(nameBox.getBoxText());
     					window.display();
@@ -128,6 +279,7 @@ int main()
     						{
     							nameBox.textEntered(event.text.unicode);
     							window.clear(sf::Color::White);
+                                window.draw(entrance);
     							window.draw(nameBox.getTextBox());
     							window.draw(nameBox.getBoxText());
     							window.display();
@@ -145,6 +297,7 @@ int main()
 
     		}
     			window.clear(sf::Color::White);
+                window.draw(entrance);
     			window.draw(nameBox.getTextBox());
     			window.draw(nameBox.getBoxText());
     			window.display();
@@ -213,6 +366,7 @@ int main()
 
      					    //Draw all the buttons
         			        window.clear(sf::Color::White);
+                            window.draw(background);
         			        window.draw(produceButton.getButton());
         			        window.draw(produceButton.getButtonName());
         			        window.draw(meatsButton.getButton());
@@ -263,6 +417,7 @@ int main()
         	}
 
         window.clear(sf::Color::White);
+        window.draw(background);
         window.draw(produceButton.getButton());
         window.draw(produceButton.getButtonName());
         window.draw(meatsButton.getButton());
@@ -334,7 +489,8 @@ int main()
     			}
 
     			window.clear(sf::Color::White);
-
+    			window.draw(background);
+    		    window.draw(produce);
     			window.draw(produceNameText.getButtonName());
     			window.draw(produceTypeText.getButtonName());
     			window.draw(producePriceText.getButtonName());
