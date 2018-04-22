@@ -29,7 +29,7 @@ class Store{
 		void listVegetables();
 		void listInfo();
 
-		void addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText, std::string link);
+		void addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText);
 		void produceGrid();
 		int amountOfProduceItems();
 		void addProduce(std::string name, std::string type, double pricePerLlb, Button button );
@@ -43,9 +43,9 @@ class Store{
 Store::Store(){
 }
 
-void Store::addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions, sf::Font &font, std::string initText, std::string link)
+void Store::addProduce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions, sf::Font &font, std::string initText)
 {
-	produceItems.push_back(Produce( name,  type,  pricePerLlb,  dimensions, font, initText, link));
+	produceItems.push_back(Produce( name,  type,  pricePerLlb,  dimensions, font, initText));
 }
 
 

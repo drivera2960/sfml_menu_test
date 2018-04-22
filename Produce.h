@@ -29,7 +29,7 @@ class Produce
 		double supermarketQuantity;
 
 	public:
-		Produce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText, std::string link);
+		Produce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText);
 		void changeButtonPosition(float x, float y);
 		void changeTextPosition(float x, float y);
 		std::string getButtonNameStr();
@@ -46,7 +46,7 @@ class Produce
 };
 
 
-Produce::Produce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText, std::string link):name(name), type(type)
+Produce::Produce(std::string name, std::string type, double pricePerLlb, sf::Vector2f dimensions,  sf::Font &font, std::string initText):name(name), type(type)
 {
 	button.setSize(dimensions);
 	button.setOutlineThickness(5);
@@ -60,8 +60,6 @@ Produce::Produce(std::string name, std::string type, double pricePerLlb, sf::Vec
 	this -> pricePerLlb = pricePerLlb;
 	this -> supermarketQuantity = 100;
 
-	if (!(imageTexture).loadFromFile(link))
-			std::cout<<"nogo on lettuce pat\n\n";//error message
 
 }
 
